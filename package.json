@@ -4,7 +4,8 @@
   "scripts": {
     "test": "node --env-file=.env node_modules/vitest/vitest.mjs run",
     "web": "node --env-file=.env --import tsx src/main.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "worker": "node --env-file=.env --import tsx src/workerMain.ts"
   },
   "type": "module",
   "private": true,
