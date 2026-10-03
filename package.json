@@ -1,0 +1,22 @@
+{
+  "name": "background-jobs-project-pack",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "node --env-file=.env node_modules/vitest/vitest.mjs run",
+    "web": "node --env-file=.env --import tsx src/main.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "fastify": "^5.12.5",
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "@types/pg": "^8.23.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
+  }
+}
