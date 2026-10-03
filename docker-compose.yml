@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:16
+    container_name: bgjobs-pg
+    environment:
+      POSTGRES_USER: jobs
+      POSTGRES_DB: jobs_dev
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - bgjobs_pgdata:/var/lib/postgresql/data
+volumes:
+  bgjobs_pgdata:
