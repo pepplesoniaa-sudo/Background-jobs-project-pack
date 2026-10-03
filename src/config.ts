@@ -11,6 +11,9 @@ export interface WorkerConfig extends Config {
   sendTimeoutMs: number;
   fakeSendDelayMs: number;
   uncertainSendPolicy: UncertainSendPolicy;
+  backoffBaseMs: number;
+  backoffCapMs: number;
+  forceFail: boolean;
 }
 
 function requireString(env: NodeJS.ProcessEnv, name: string): string {
@@ -49,7 +52,13 @@ export function loadWorkerConfig(env: NodeJS.ProcessEnv = process.env): WorkerCo
     sendTimeoutMs: requireInt(env, "SEND_TIMEOUT_MS", 1),
     fakeSendDelayMs: requireInt(env, "FAKE_SEND_DELAY_MS", 0),
     uncertainSendPolicy: policy,
+    backoffBaseMs: requireInt(env, "BACKOFF_BASE_MS", 1),
+    backoffCapMs: requireInt(env, "BACKOFF_CAP_MS", 1),
+    forceFail: env.FORCE_FAIL === "true", // optional, default false (PRD section 8)
   };
+  if (config.backoffCapMs < config.backoffBaseMs) {
+    throw new Error("BACKOFF_CAP_MS must be at least BACKOFF_BASE_MS");
+  }
   // Otherwise the fake send would time out instead of hang (PRD FR14).
   if (config.fakeSendDelayMs >= config.sendTimeoutMs) {
     throw new Error("FAKE_SEND_DELAY_MS must be below SEND_TIMEOUT_MS");

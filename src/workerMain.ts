@@ -14,12 +14,14 @@ if ((process.env.MAIL_TRANSPORT ?? "fake") !== "fake") {
 const config = loadWorkerConfig();
 const pool = new pg.Pool({ connectionString: config.databaseUrl });
 const workerId = `${hostname()}-${process.pid}`;
-const transport = new FakeTransport(MAILBOX_PATH, config.fakeSendDelayMs);
+const transport = new FakeTransport(MAILBOX_PATH, config.fakeSendDelayMs, config.forceFail);
 const deps = {
   pool,
   transport,
   sendTimeoutMs: config.sendTimeoutMs,
   uncertainSendPolicy: config.uncertainSendPolicy,
+  backoffBaseMs: config.backoffBaseMs,
+  backoffCapMs: config.backoffCapMs,
 };
 const log = (line: string) => console.log(line);
 

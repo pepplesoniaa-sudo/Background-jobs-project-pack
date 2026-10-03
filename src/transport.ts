@@ -46,10 +46,13 @@ export class FakeTransport implements MailTransport {
   constructor(
     private readonly mailboxPath: string,
     private readonly delayMs: number,
+    private readonly forceFail = false,
   ) {}
 
   async send(_message: MailMessage, options: SendOptions): Promise<TransportOutcome> {
     if (this.delayMs > 0) await new Promise((resolve) => setTimeout(resolve, this.delayMs));
+    // FORCE_FAIL: a retryable 503. Like any 5xx the outcome is unknown, so nothing is recorded.
+    if (this.forceFail) return { outcome: "unknown", reason: "provider 503" };
     const existing = (await readMailbox(this.mailboxPath)).find((e) => e.idempotencyKey === options.idempotencyKey);
     if (existing) return { outcome: "accepted", messageId: existing.messageId };
     const entry: MailboxEntry = { idempotencyKey: options.idempotencyKey, messageId: randomUUID() };

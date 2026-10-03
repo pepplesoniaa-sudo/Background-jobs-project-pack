@@ -6,9 +6,9 @@ import { afterAll, beforeEach, describe, expect, it } from "vitest";
 import { loadConfig, loadWorkerConfig } from "../src/config.js";
 import { enqueueJob } from "../src/enqueue.js";
 import { SendError } from "../src/errors.js";
-import { sendEmailSafely, type SendEmailDeps } from "../src/sendEmail.js";
+import { sendEmailSafely } from "../src/sendEmail.js";
 import { FakeTransport, readMailbox, type MailTransport, type TransportOutcome } from "../src/transport.js";
-import { claimJob, finishSuccess, runOne } from "../src/worker.js";
+import { claimJob, finishSuccess, runOne, type WorkerDeps } from "../src/worker.js";
 
 // Real Postgres (local dev DB). Test rows are removed by key prefix only.
 const PREFIX = "s3test-";
@@ -22,12 +22,14 @@ const log = (line: string) => lines.push(line);
 
 const message = { to: "nobody@example.invalid", subject: "s", body: "b" };
 
-function deps(over: Partial<SendEmailDeps> = {}): SendEmailDeps {
+function deps(over: Partial<WorkerDeps> = {}): WorkerDeps {
   return {
     pool,
     transport: new FakeTransport(mailboxPath, 0),
     sendTimeoutMs: 30000,
     uncertainSendPolicy: "resend",
+    backoffBaseMs: 2000,
+    backoffCapMs: 300000,
     ...over,
   };
 }
@@ -194,6 +196,8 @@ describe("FR14 worker config validation", () => {
     SEND_TIMEOUT_MS: "30000",
     FAKE_SEND_DELAY_MS: "0",
     UNCERTAIN_SEND_POLICY: "resend",
+    BACKOFF_BASE_MS: "2000",
+    BACKOFF_CAP_MS: "300000",
   };
   it("accepts a valid config", () => {
     expect(loadWorkerConfig(base).sendTimeoutMs).toBe(30000);
