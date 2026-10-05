@@ -14,7 +14,11 @@ export interface SendOptions {
 
 export type TransportOutcome =
   | { outcome: "accepted"; messageId: string }
-  | { outcome: "refused"; status: number } // a 4xx: we KNOW nothing was sent
+  // We KNOW nothing was sent. `retryable` overrides the default (only 429 is retryable): an SMTP 4xx
+  // is a temporary refusal and an SMTP 5xx is a permanent one. `summary` replaces the plain
+  // "provider refused with <status>" in last_error where that would mislead (a login failure, or a
+  // rejection made by the mail library itself). It is short and never holds an address.
+  | { outcome: "refused"; status: number; retryable?: boolean; summary?: string }
   | { outcome: "unknown"; reason: string }; // timeout, network drop, 5xx: outcome UNKNOWN
 
 export interface MailTransport {

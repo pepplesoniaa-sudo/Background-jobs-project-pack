@@ -99,7 +99,9 @@ describe("T2 total failure (FORCE_FAIL, policy resend)", () => {
         const row = await jobRow(id);
         seen.push(row.status);
         if (row.status === "failed") {
-          expect(new Date(row.run_at).getTime()).toBeGreaterThan(Date.now() - 1); // run_at in the future
+          // run_at in the future, judged by the database clock that set it (the host clock can differ)
+          const due = await pool.query("SELECT run_at > now() AS in_future FROM jobs WHERE id = $1", [id]);
+          expect(due.rows[0].in_future).toBe(true);
           expect(row.locked_by).toBeNull();
         }
       } else {
@@ -199,7 +201,7 @@ describe("fail-or-retry decisions", () => {
     const id = await newJob(5);
     const job = (await claimJob(pool, "w1"))!;
     const result = await failOrRetry(pool, deps(), {
-      jobId: id, attemptNo: job.attempts, maxAttempts: job.max_attempts, kind: "permanent", error: "x", workerId: "w2",
+      jobId: id, attemptNo: job.attempts, maxAttempts: job.max_attempts, kind: "permanent", error: "x", guard: { by: "worker", workerId: "w2" },
     });
     expect(result.outcome).toBe("lost");
     expect((await jobRow(id)).status).toBe("processing");
@@ -218,6 +220,7 @@ describe("config", () => {
   const base = {
     DATABASE_URL: "x", MAX_ATTEMPTS: "5", PORT: "3000", POLL_INTERVAL_MS: "1000", SEND_TIMEOUT_MS: "30000",
     FAKE_SEND_DELAY_MS: "0", UNCERTAIN_SEND_POLICY: "resend", BACKOFF_BASE_MS: "2000", BACKOFF_CAP_MS: "300000",
+    STUCK_TIMEOUT_MS: "120000", SWEEP_INTERVAL_MS: "15000", WORKER_CONCURRENCY: "5", HEARTBEAT_INTERVAL_MS: "10000",
   };
   it("FORCE_FAIL defaults to false and reads true", () => {
     expect(loadWorkerConfig(base).forceFail).toBe(false);

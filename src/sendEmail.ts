@@ -37,8 +37,13 @@ export async function sendEmailSafely(deps: SendEmailDeps, jobId: string, messag
 
   // 4. Outcome.
   if (result.outcome === "accepted") {
+    // The mail server took the message, so this is recorded EVEN IF this worker has lost the job
+    // meanwhile: it is a fact about the email, not about the job, and a later attempt must see it.
+    // Guarded: it only moves "sending" to "sent". A row that is already "sent" is left alone, and
+    // nothing here can ever turn "sent" back into "sending".
     await pool.query(
-      `UPDATE sent_emails SET state = 'sent', provider_message_id = $2, updated_at = now() WHERE job_id = $1`,
+      `UPDATE sent_emails SET state = 'sent', provider_message_id = $2, updated_at = now()
+       WHERE job_id = $1 AND state = 'sending'`,
       [jobId, result.messageId],
     );
     return;
@@ -46,8 +51,9 @@ export async function sendEmailSafely(deps: SendEmailDeps, jobId: string, messag
   if (result.outcome === "refused") {
     // We KNOW it was not sent, so the sending row must not poison a later retry.
     await pool.query(`DELETE FROM sent_emails WHERE job_id = $1 AND state = 'sending'`, [jobId]);
-    // 429 is retryable, any other 4xx is permanent.
-    throw new SendError(`provider refused with ${result.status}`, result.status === 429 ? "retryable" : "permanent");
+    // 429 is retryable, any other 4xx is permanent, unless the transport says otherwise.
+    const retryable = result.retryable ?? result.status === 429;
+    throw new SendError(result.summary ?? `provider refused with ${result.status}`, retryable ? "retryable" : "permanent");
   }
   // Unknown outcome: leave the row as sending.
   throw new SendError(`provider outcome unknown: ${result.reason}`, "retryable");

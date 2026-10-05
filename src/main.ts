@@ -1,8 +1,8 @@
 import pg from "pg";
-import { loadConfig } from "./config.js";
+import { loadWebConfig } from "./config.js";
 import { buildServer } from "./server.js";
 
-const config = loadConfig();
+const config = loadWebConfig();
 const pool = new pg.Pool({ connectionString: config.databaseUrl });
 const app = buildServer(pool, config, true);
 

@@ -198,6 +198,8 @@ describe("FR14 worker config validation", () => {
     UNCERTAIN_SEND_POLICY: "resend",
     BACKOFF_BASE_MS: "2000",
     BACKOFF_CAP_MS: "300000",
+    STUCK_TIMEOUT_MS: "120000",
+    SWEEP_INTERVAL_MS: "15000", WORKER_CONCURRENCY: "5", HEARTBEAT_INTERVAL_MS: "10000",
   };
   it("accepts a valid config", () => {
     expect(loadWorkerConfig(base).sendTimeoutMs).toBe(30000);

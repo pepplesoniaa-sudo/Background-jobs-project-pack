@@ -1,11 +1,11 @@
 import pg from "pg";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { loadConfig } from "../src/config.js";
+import { loadWebConfig } from "../src/config.js";
 import { buildServer } from "../src/server.js";
 
 // Real Postgres (local dev DB) and real HTTP. Test rows are removed by key prefix only.
 const PREFIX = "s2test-";
-const config = loadConfig();
+const config = loadWebConfig();
 const pool = new pg.Pool({ connectionString: config.databaseUrl });
 const app = buildServer(pool, config);
 let base = "";

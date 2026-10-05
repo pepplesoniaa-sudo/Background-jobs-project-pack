@@ -4,7 +4,21 @@ export interface Config {
   port: number;
 }
 
+export interface WebConfig extends Config {
+  adminToken: string;
+}
+
 export type UncertainSendPolicy = "resend" | "flag_for_human";
+export type MailTransportKind = "fake" | "real";
+
+// The real transport is Gmail SMTP (D3). The password is a secret: environment only, never logged.
+export interface SmtpConfig {
+  host: string;
+  port: number;
+  user: string;
+  password: string;
+  from: string;
+}
 
 export interface WorkerConfig extends Config {
   pollIntervalMs: number;
@@ -14,6 +28,12 @@ export interface WorkerConfig extends Config {
   backoffBaseMs: number;
   backoffCapMs: number;
   forceFail: boolean;
+  stuckTimeoutMs: number;
+  sweepIntervalMs: number;
+  workerConcurrency: number;
+  heartbeatIntervalMs: number;
+  mailTransport: MailTransportKind;
+  smtp: SmtpConfig | null; // set only when mailTransport is "real"
 }
 
 function requireString(env: NodeJS.ProcessEnv, name: string): string {
@@ -40,11 +60,27 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   };
 }
 
+const MIN_ADMIN_TOKEN_LENGTH = 16;
+
+// The web app also needs the admin token, which guards the dead letter routes (PRD FR12).
+export function loadWebConfig(env: NodeJS.ProcessEnv = process.env): WebConfig {
+  const adminToken = requireString(env, "ADMIN_TOKEN");
+  if (adminToken.length < MIN_ADMIN_TOKEN_LENGTH) {
+    throw new Error(`ADMIN_TOKEN must be at least ${MIN_ADMIN_TOKEN_LENGTH} characters`);
+  }
+  return { ...loadConfig(env), adminToken };
+}
+
 // The worker needs the web keys plus its own. Keys for later steps arrive with their steps.
 export function loadWorkerConfig(env: NodeJS.ProcessEnv = process.env): WorkerConfig {
   const policy = requireString(env, "UNCERTAIN_SEND_POLICY");
   if (policy !== "resend" && policy !== "flag_for_human") {
     throw new Error("UNCERTAIN_SEND_POLICY must be resend or flag_for_human");
+  }
+  // PRD section 8: MAIL_TRANSPORT defaults to fake. Anything else must be spelled out.
+  const mailTransport = env.MAIL_TRANSPORT ?? "fake";
+  if (mailTransport !== "fake" && mailTransport !== "real") {
+    throw new Error("MAIL_TRANSPORT must be fake or real");
   }
   const config: WorkerConfig = {
     ...loadConfig(env),
@@ -55,7 +91,35 @@ export function loadWorkerConfig(env: NodeJS.ProcessEnv = process.env): WorkerCo
     backoffBaseMs: requireInt(env, "BACKOFF_BASE_MS", 1),
     backoffCapMs: requireInt(env, "BACKOFF_CAP_MS", 1),
     forceFail: env.FORCE_FAIL === "true", // optional, default false (PRD section 8)
+    stuckTimeoutMs: requireInt(env, "STUCK_TIMEOUT_MS", 1),
+    sweepIntervalMs: requireInt(env, "SWEEP_INTERVAL_MS", 1),
+    workerConcurrency: requireInt(env, "WORKER_CONCURRENCY", 1),
+    heartbeatIntervalMs: requireInt(env, "HEARTBEAT_INTERVAL_MS", 1),
+    mailTransport,
+    smtp:
+      mailTransport === "real"
+        ? {
+            host: requireString(env, "EMAIL_HOST"),
+            port: requireInt(env, "EMAIL_PORT", 1),
+            user: requireString(env, "EMAIL_USER"),
+            password: requireString(env, "EMAIL_PASSWORD"),
+            from: requireString(env, "EMAIL_FROM"),
+          }
+        : null,
   };
+  // FORCE_FAIL belongs to the fake. With the real transport it would silently do nothing.
+  if (config.mailTransport === "real" && config.forceFail) {
+    throw new Error("FORCE_FAIL only works with MAIL_TRANSPORT=fake");
+  }
+  // A slow but alive send must never look stuck (PRD FR9, FR14).
+  if (config.stuckTimeoutMs < 3 * config.sendTimeoutMs) {
+    throw new Error("STUCK_TIMEOUT_MS must be at least 3 * SEND_TIMEOUT_MS");
+  }
+  // A live worker refreshes its lock every HEARTBEAT_INTERVAL_MS. Two missed beats must still leave the
+  // job well inside the time after which the sweep reclaims it.
+  if (config.stuckTimeoutMs < 3 * config.heartbeatIntervalMs) {
+    throw new Error("STUCK_TIMEOUT_MS must be at least 3 * HEARTBEAT_INTERVAL_MS");
+  }
   if (config.backoffCapMs < config.backoffBaseMs) {
     throw new Error("BACKOFF_CAP_MS must be at least BACKOFF_BASE_MS");
   }
