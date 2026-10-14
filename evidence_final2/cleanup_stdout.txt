@@ -1,0 +1,4 @@
+cleanup DB: jobs_evidence
+cleanup before: {"dead":7,"failed":1,"pending":1,"processing":1,"succeeded":110}
+cleanup: drained
+cleanup after: {"dead":7,"succeeded":113}

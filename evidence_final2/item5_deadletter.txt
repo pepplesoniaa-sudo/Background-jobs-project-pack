@@ -1,0 +1,61 @@
+DB: jobs_evidence
+BEFORE counts: {"dead":8,"succeeded":164}
+enqueue status=202 id=0eb7678a-827c-4950-b5e5-cbe95a85a7d4
+my dead job: id=0eb7678a-827c-4950-b5e5-cbe95a85a7d4 status=dead attempts=2 last_error="uncertain send"
+
+GET /api/admin/dead-jobs  (header x-admin-token: ****  -- read from .env, 18 chars, not printed)
+HTTP 200; total dead jobs = 9; listed = 9
+
+Dead-letter rows (id8, attempts, email state, masked recipient, subject, jobRef, lastError):
+  0eb7678a  att 2/5  email=sending  to=d***@example.invalid  subj="Your weekly digest"  ref=d74da8a99168f9d215d1  err="uncertain send"  <== created for this item
+  03b46655  att 5/5  email=sending  to=b***@example.invalid  subj="e2 backoff"  ref=4cf8fb4f5b40bf43e5bd  err="provider outcome unknown: provider 503"
+  178e0dfb  att 2/5  email=sending  to=d***@example.invalid  subj="e1 dead"  ref=0818cab9e2feca1e12ef  err="uncertain send"
+  dc495de9  att 2/5  email=sending  to=d***@example.invalid  subj="Your weekly digest"  ref=98ee35dc28aa479da8b1  err="uncertain send"
+  37603794  att 5/5  email=sending  to=b***@example.invalid  subj="e2 backoff"  ref=35e695f4b7a5d636e15c  err="provider outcome unknown: provider 503"
+  655586c3  att 2/5  email=sending  to=d***@example.invalid  subj="e1 dead"  ref=b687b9c84f87c747ef26  err="uncertain send"
+  6a6a001d  att 2/5  email=sending  to=s***@example.test  subj="evidence e2e-snap-1"  ref=abf0ba036afdb0d0d86b  err="uncertain send"
+  f96a9b8b  att 2/5  email=sending  to=k***@example.test  subj="evidence e2e-kill-a"  ref=95c68da40ffd250c5e7d  err="uncertain send"
+  4a98f5a6  att 5/5  email=none  to=b***@example.test  subj="evidence e2e-backoff-1"  ref=98975e1a3f092ec7662c  err="provider refused with 421"
+
+The dead-letter entry for the job created above (full record):
+{
+  "id": "0eb7678a-827c-4950-b5e5-cbe95a85a7d4",
+  "status": "dead",
+  "type": "send_email",
+  "createdAt": "2026-10-14T21:03:55.185Z",
+  "finishedAt": "2026-10-14T21:03:55.656Z",
+  "attempts": 2,
+  "maxAttempts": 5,
+  "lastError": "uncertain send",
+  "payload": {
+    "to": "d***@example.invalid",
+    "subject": "Your weekly digest",
+    "body": "Hello, this is the weekly digest.",
+    "bodyTruncated": false
+  },
+  "sentState": "sending",
+  "checkProviderBeforeRetry": true,
+  "jobRef": "d74da8a99168f9d215d1",
+  "attempts_history": [
+    {
+      "attemptNo": 1,
+      "workerId": "DESKTOP-UTKAUV9-33664",
+      "startedAt": "2026-10-14T21:03:55.194Z",
+      "finishedAt": "2026-10-14T21:03:55.221Z",
+      "error": "provider outcome unknown: provider 503",
+      "backoffBoundMs": 500,
+      "delayMs": 312
+    },
+    {
+      "attemptNo": 2,
+      "workerId": "DESKTOP-UTKAUV9-33664",
+      "startedAt": "2026-10-14T21:03:55.591Z",
+      "finishedAt": "2026-10-14T21:03:55.656Z",
+      "error": "uncertain send",
+      "backoffBoundMs": null,
+      "delayMs": null
+    }
+  ]
+}
+
+GET /admin/dead -> HTTP 200, 990 bytes (saved to admin_dead_page.html)

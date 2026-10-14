@@ -1,0 +1,437 @@
+{
+  "total": 9,
+  "jobs": [
+    {
+      "id": "0eb7678a-827c-4950-b5e5-cbe95a85a7d4",
+      "status": "dead",
+      "type": "send_email",
+      "createdAt": "2026-10-14T21:03:55.185Z",
+      "finishedAt": "2026-10-14T21:03:55.656Z",
+      "attempts": 2,
+      "maxAttempts": 5,
+      "lastError": "uncertain send",
+      "payload": {
+        "to": "d***@example.invalid",
+        "subject": "Your weekly digest",
+        "body": "Hello, this is the weekly digest.",
+        "bodyTruncated": false
+      },
+      "sentState": "sending",
+      "checkProviderBeforeRetry": true,
+      "jobRef": "d74da8a99168f9d215d1",
+      "attempts_history": [
+        {
+          "attemptNo": 1,
+          "workerId": "DESKTOP-UTKAUV9-33664",
+          "startedAt": "2026-10-14T21:03:55.194Z",
+          "finishedAt": "2026-10-14T21:03:55.221Z",
+          "error": "provider outcome unknown: provider 503",
+          "backoffBoundMs": 500,
+          "delayMs": 312
+        },
+        {
+          "attemptNo": 2,
+          "workerId": "DESKTOP-UTKAUV9-33664",
+          "startedAt": "2026-10-14T21:03:55.591Z",
+          "finishedAt": "2026-10-14T21:03:55.656Z",
+          "error": "uncertain send",
+          "backoffBoundMs": null,
+          "delayMs": null
+        }
+      ]
+    },
+    {
+      "id": "03b46655-0de4-4a83-aa9d-39026b66ebb4",
+      "status": "dead",
+      "type": "send_email",
+      "createdAt": "2026-10-14T21:02:33.554Z",
+      "finishedAt": "2026-10-14T21:02:55.527Z",
+      "attempts": 5,
+      "maxAttempts": 5,
+      "lastError": "provider outcome unknown: provider 503",
+      "payload": {
+        "to": "b***@example.invalid",
+        "subject": "e2 backoff",
+        "body": "x",
+        "bodyTruncated": false
+      },
+      "sentState": "sending",
+      "checkProviderBeforeRetry": true,
+      "jobRef": "4cf8fb4f5b40bf43e5bd",
+      "attempts_history": [
+        {
+          "attemptNo": 1,
+          "workerId": "DESKTOP-UTKAUV9-22412",
+          "startedAt": "2026-10-14T21:02:33.605Z",
+          "finishedAt": "2026-10-14T21:02:33.631Z",
+          "error": "provider outcome unknown: provider 503",
+          "backoffBoundMs": 2000,
+          "delayMs": 1928
+        },
+        {
+          "attemptNo": 2,
+          "workerId": "DESKTOP-UTKAUV9-22412",
+          "startedAt": "2026-10-14T21:02:35.626Z",
+          "finishedAt": "2026-10-14T21:02:35.684Z",
+          "error": "provider outcome unknown: provider 503",
+          "backoffBoundMs": 4000,
+          "delayMs": 3717
+        },
+        {
+          "attemptNo": 3,
+          "workerId": "DESKTOP-UTKAUV9-22412",
+          "startedAt": "2026-10-14T21:02:39.401Z",
+          "finishedAt": "2026-10-14T21:02:39.453Z",
+          "error": "provider outcome unknown: provider 503",
+          "backoffBoundMs": 8000,
+          "delayMs": 4293
+        },
+        {
+          "attemptNo": 4,
+          "workerId": "DESKTOP-UTKAUV9-22412",
+          "startedAt": "2026-10-14T21:02:43.750Z",
+          "finishedAt": "2026-10-14T21:02:43.802Z",
+          "error": "provider outcome unknown: provider 503",
+          "backoffBoundMs": 16000,
+          "delayMs": 11632
+        },
+        {
+          "attemptNo": 5,
+          "workerId": "DESKTOP-UTKAUV9-22412",
+          "startedAt": "2026-10-14T21:02:55.459Z",
+          "finishedAt": "2026-10-14T21:02:55.527Z",
+          "error": "provider outcome unknown: provider 503",
+          "backoffBoundMs": null,
+          "delayMs": null
+        }
+      ]
+    },
+    {
+      "id": "178e0dfb-58b2-4ed1-a432-36607f37c286",
+      "status": "dead",
+      "type": "send_email",
+      "createdAt": "2026-10-14T21:02:00.054Z",
+      "finishedAt": "2026-10-14T21:02:00.658Z",
+      "attempts": 2,
+      "maxAttempts": 5,
+      "lastError": "uncertain send",
+      "payload": {
+        "to": "d***@example.invalid",
+        "subject": "e1 dead",
+        "body": "x",
+        "bodyTruncated": false
+      },
+      "sentState": "sending",
+      "checkProviderBeforeRetry": true,
+      "jobRef": "0818cab9e2feca1e12ef",
+      "attempts_history": [
+        {
+          "attemptNo": 1,
+          "workerId": "DESKTOP-UTKAUV9-46468",
+          "startedAt": "2026-10-14T21:02:00.070Z",
+          "finishedAt": "2026-10-14T21:02:00.096Z",
+          "error": "provider outcome unknown: provider 503",
+          "backoffBoundMs": 500,
+          "delayMs": 450
+        },
+        {
+          "attemptNo": 2,
+          "workerId": "DESKTOP-UTKAUV9-46468",
+          "startedAt": "2026-10-14T21:02:00.590Z",
+          "finishedAt": "2026-10-14T21:02:00.658Z",
+          "error": "uncertain send",
+          "backoffBoundMs": null,
+          "delayMs": null
+        }
+      ]
+    },
+    {
+      "id": "dc495de9-28a3-4877-b537-2b8e3dae99d4",
+      "status": "dead",
+      "type": "send_email",
+      "createdAt": "2026-10-14T06:01:45.042Z",
+      "finishedAt": "2026-10-14T06:01:45.585Z",
+      "attempts": 2,
+      "maxAttempts": 5,
+      "lastError": "uncertain send",
+      "payload": {
+        "to": "d***@example.invalid",
+        "subject": "Your weekly digest",
+        "body": "Hello, this is the weekly digest.",
+        "bodyTruncated": false
+      },
+      "sentState": "sending",
+      "checkProviderBeforeRetry": true,
+      "jobRef": "98ee35dc28aa479da8b1",
+      "attempts_history": [
+        {
+          "attemptNo": 1,
+          "workerId": "DESKTOP-UTKAUV9-19768",
+          "startedAt": "2026-10-14T06:01:45.107Z",
+          "finishedAt": "2026-10-14T06:01:45.205Z",
+          "error": "provider outcome unknown: provider 503",
+          "backoffBoundMs": 500,
+          "delayMs": 267
+        },
+        {
+          "attemptNo": 2,
+          "workerId": "DESKTOP-UTKAUV9-19768",
+          "startedAt": "2026-10-14T06:01:45.563Z",
+          "finishedAt": "2026-10-14T06:01:45.585Z",
+          "error": "uncertain send",
+          "backoffBoundMs": null,
+          "delayMs": null
+        }
+      ]
+    },
+    {
+      "id": "37603794-d034-4242-91b3-f1330caac7c9",
+      "status": "dead",
+      "type": "send_email",
+      "createdAt": "2026-10-14T05:59:08.523Z",
+      "finishedAt": "2026-10-14T05:59:32.186Z",
+      "attempts": 5,
+      "maxAttempts": 5,
+      "lastError": "provider outcome unknown: provider 503",
+      "payload": {
+        "to": "b***@example.invalid",
+        "subject": "e2 backoff",
+        "body": "x",
+        "bodyTruncated": false
+      },
+      "sentState": "sending",
+      "checkProviderBeforeRetry": true,
+      "jobRef": "35e695f4b7a5d636e15c",
+      "attempts_history": [
+        {
+          "attemptNo": 1,
+          "workerId": "DESKTOP-UTKAUV9-5720",
+          "startedAt": "2026-10-14T05:59:08.668Z",
+          "finishedAt": "2026-10-14T05:59:08.779Z",
+          "error": "provider outcome unknown: provider 503",
+          "backoffBoundMs": 2000,
+          "delayMs": 1472
+        },
+        {
+          "attemptNo": 2,
+          "workerId": "DESKTOP-UTKAUV9-5720",
+          "startedAt": "2026-10-14T05:59:10.365Z",
+          "finishedAt": "2026-10-14T05:59:10.388Z",
+          "error": "provider outcome unknown: provider 503",
+          "backoffBoundMs": 4000,
+          "delayMs": 3788
+        },
+        {
+          "attemptNo": 3,
+          "workerId": "DESKTOP-UTKAUV9-5720",
+          "startedAt": "2026-10-14T05:59:14.208Z",
+          "finishedAt": "2026-10-14T05:59:14.227Z",
+          "error": "provider outcome unknown: provider 503",
+          "backoffBoundMs": 8000,
+          "delayMs": 6719
+        },
+        {
+          "attemptNo": 4,
+          "workerId": "DESKTOP-UTKAUV9-5720",
+          "startedAt": "2026-10-14T05:59:21.042Z",
+          "finishedAt": "2026-10-14T05:59:21.078Z",
+          "error": "provider outcome unknown: provider 503",
+          "backoffBoundMs": 16000,
+          "delayMs": 11001
+        },
+        {
+          "attemptNo": 5,
+          "workerId": "DESKTOP-UTKAUV9-5720",
+          "startedAt": "2026-10-14T05:59:32.160Z",
+          "finishedAt": "2026-10-14T05:59:32.186Z",
+          "error": "provider outcome unknown: provider 503",
+          "backoffBoundMs": null,
+          "delayMs": null
+        }
+      ]
+    },
+    {
+      "id": "655586c3-5cf7-4dfb-9768-47666fe2ab00",
+      "status": "dead",
+      "type": "send_email",
+      "createdAt": "2026-10-14T05:58:09.318Z",
+      "finishedAt": "2026-10-14T05:58:09.936Z",
+      "attempts": 2,
+      "maxAttempts": 5,
+      "lastError": "uncertain send",
+      "payload": {
+        "to": "d***@example.invalid",
+        "subject": "e1 dead",
+        "body": "x",
+        "bodyTruncated": false
+      },
+      "sentState": "sending",
+      "checkProviderBeforeRetry": true,
+      "jobRef": "b687b9c84f87c747ef26",
+      "attempts_history": [
+        {
+          "attemptNo": 1,
+          "workerId": "DESKTOP-UTKAUV9-7908",
+          "startedAt": "2026-10-14T05:58:09.430Z",
+          "finishedAt": "2026-10-14T05:58:09.452Z",
+          "error": "provider outcome unknown: provider 503",
+          "backoffBoundMs": 500,
+          "delayMs": 454
+        },
+        {
+          "attemptNo": 2,
+          "workerId": "DESKTOP-UTKAUV9-7908",
+          "startedAt": "2026-10-14T05:58:09.910Z",
+          "finishedAt": "2026-10-14T05:58:09.936Z",
+          "error": "uncertain send",
+          "backoffBoundMs": null,
+          "delayMs": null
+        }
+      ]
+    },
+    {
+      "id": "6a6a001d-bc7d-4b55-80c4-590c901f7b05",
+      "status": "dead",
+      "type": "send_email",
+      "createdAt": "2026-10-05T16:47:32.595Z",
+      "finishedAt": "2026-10-14T05:47:31.133Z",
+      "attempts": 2,
+      "maxAttempts": 5,
+      "lastError": "uncertain send",
+      "payload": {
+        "to": "s***@example.test",
+        "subject": "evidence e2e-snap-1",
+        "body": "Evidence job e2e-snap-1.",
+        "bodyTruncated": false
+      },
+      "sentState": "sending",
+      "checkProviderBeforeRetry": true,
+      "jobRef": "abf0ba036afdb0d0d86b",
+      "attempts_history": [
+        {
+          "attemptNo": 1,
+          "workerId": "DESKTOP-UTKAUV9-8980",
+          "startedAt": "2026-10-05T16:47:33.067Z",
+          "finishedAt": "2026-10-14T05:47:29.324Z",
+          "error": "stuck: worker lost or slow",
+          "backoffBoundMs": 2000,
+          "delayMs": 1367
+        },
+        {
+          "attemptNo": 2,
+          "workerId": "DESKTOP-UTKAUV9-20760",
+          "startedAt": "2026-10-14T05:47:31.005Z",
+          "finishedAt": "2026-10-14T05:47:31.133Z",
+          "error": "uncertain send",
+          "backoffBoundMs": null,
+          "delayMs": null
+        }
+      ]
+    },
+    {
+      "id": "f96a9b8b-1ec4-44e5-b657-3435c02d182e",
+      "status": "dead",
+      "type": "send_email",
+      "createdAt": "2026-10-05T16:32:27.305Z",
+      "finishedAt": "2026-10-05T16:35:35.752Z",
+      "attempts": 2,
+      "maxAttempts": 5,
+      "lastError": "uncertain send",
+      "payload": {
+        "to": "k***@example.test",
+        "subject": "evidence e2e-kill-a",
+        "body": "Evidence job e2e-kill-a.",
+        "bodyTruncated": false
+      },
+      "sentState": "sending",
+      "checkProviderBeforeRetry": true,
+      "jobRef": "95c68da40ffd250c5e7d",
+      "attempts_history": [
+        {
+          "attemptNo": 1,
+          "workerId": "DESKTOP-UTKAUV9-19100",
+          "startedAt": "2026-10-05T16:32:27.803Z",
+          "finishedAt": "2026-10-05T16:35:34.763Z",
+          "error": "stuck: worker lost or slow",
+          "backoffBoundMs": 1000,
+          "delayMs": 751
+        },
+        {
+          "attemptNo": 2,
+          "workerId": "DESKTOP-UTKAUV9-12652",
+          "startedAt": "2026-10-05T16:35:35.725Z",
+          "finishedAt": "2026-10-05T16:35:35.752Z",
+          "error": "uncertain send",
+          "backoffBoundMs": null,
+          "delayMs": null
+        }
+      ]
+    },
+    {
+      "id": "4a98f5a6-3295-46b6-8b59-adf827eb0f87",
+      "status": "dead",
+      "type": "send_email",
+      "createdAt": "2026-10-05T16:30:41.288Z",
+      "finishedAt": "2026-10-05T16:31:03.683Z",
+      "attempts": 5,
+      "maxAttempts": 5,
+      "lastError": "provider refused with 421",
+      "payload": {
+        "to": "b***@example.test",
+        "subject": "evidence e2e-backoff-1",
+        "body": "Evidence job e2e-backoff-1.",
+        "bodyTruncated": false
+      },
+      "sentState": null,
+      "checkProviderBeforeRetry": false,
+      "jobRef": "98975e1a3f092ec7662c",
+      "attempts_history": [
+        {
+          "attemptNo": 1,
+          "workerId": "DESKTOP-UTKAUV9-22008",
+          "startedAt": "2026-10-05T16:30:41.463Z",
+          "finishedAt": "2026-10-05T16:30:41.564Z",
+          "error": "provider refused with 421",
+          "backoffBoundMs": 2000,
+          "delayMs": 1353
+        },
+        {
+          "attemptNo": 2,
+          "workerId": "DESKTOP-UTKAUV9-22008",
+          "startedAt": "2026-10-05T16:30:43.012Z",
+          "finishedAt": "2026-10-05T16:30:43.071Z",
+          "error": "provider refused with 421",
+          "backoffBoundMs": 4000,
+          "delayMs": 3132
+        },
+        {
+          "attemptNo": 3,
+          "workerId": "DESKTOP-UTKAUV9-22008",
+          "startedAt": "2026-10-05T16:30:46.629Z",
+          "finishedAt": "2026-10-05T16:30:46.710Z",
+          "error": "provider refused with 421",
+          "backoffBoundMs": 8000,
+          "delayMs": 4792
+        },
+        {
+          "attemptNo": 4,
+          "workerId": "DESKTOP-UTKAUV9-22008",
+          "startedAt": "2026-10-05T16:30:51.761Z",
+          "finishedAt": "2026-10-05T16:30:51.823Z",
+          "error": "provider refused with 421",
+          "backoffBoundMs": 16000,
+          "delayMs": 11387
+        },
+        {
+          "attemptNo": 5,
+          "workerId": "DESKTOP-UTKAUV9-22008",
+          "startedAt": "2026-10-05T16:31:03.605Z",
+          "finishedAt": "2026-10-05T16:31:03.683Z",
+          "error": "provider refused with 421",
+          "backoffBoundMs": null,
+          "delayMs": null
+        }
+      ]
+    }
+  ]
+}

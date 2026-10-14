@@ -1,0 +1,14 @@
+worker=DESKTOP-UTKAUV9-45124 started concurrency=5 transport=fake
+worker=DESKTOP-UTKAUV9-45124 concurrent=1 max_seen=1
+worker=DESKTOP-UTKAUV9-45124 job=52c1a21c-92e5-4263-934f-74f80660c184 type=send_email attempt=1 status=processing
+worker=DESKTOP-UTKAUV9-45124 job=52c1a21c-92e5-4263-934f-74f80660c184 attempt=1 status=succeeded
+worker=DESKTOP-UTKAUV9-45124 concurrent=0 max_seen=1
+worker=DESKTOP-UTKAUV9-45124 concurrent=1 max_seen=1
+worker=DESKTOP-UTKAUV9-45124 job=5d024076-a680-4c59-bdfa-22c486d7033c type=send_email attempt=2 status=processing
+worker=DESKTOP-UTKAUV9-45124 job=5d024076-a680-4c59-bdfa-22c486d7033c attempt=2 status=succeeded
+worker=DESKTOP-UTKAUV9-45124 concurrent=0 max_seen=1
+sweep job=de8741a9-8a81-4a0b-8833-fb5fbedd5e6e attempt=1 recovered status=failed
+worker=DESKTOP-UTKAUV9-45124 concurrent=1 max_seen=1
+worker=DESKTOP-UTKAUV9-45124 job=de8741a9-8a81-4a0b-8833-fb5fbedd5e6e type=send_email attempt=2 status=processing
+worker=DESKTOP-UTKAUV9-45124 job=de8741a9-8a81-4a0b-8833-fb5fbedd5e6e attempt=2 status=succeeded
+worker=DESKTOP-UTKAUV9-45124 concurrent=0 max_seen=1

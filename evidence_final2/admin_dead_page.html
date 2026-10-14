@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dead jobs</title>
+<style>
+  body { font: 14px/1.4 system-ui, sans-serif; margin: 1.5rem; color: #222; }
+  table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+  th, td { border: 1px solid #ccc; padding: .4rem .5rem; vertical-align: top; text-align: left; }
+  th { background: #f3f3f3; }
+  pre { margin: 0; white-space: pre-wrap; }
+  .warn { color: #a40000; font-weight: 600; }
+  .muted { color: #666; }
+  #status { margin-left: .5rem; }
+</style>
+</head>
+<body>
+<h1>Dead jobs</h1>
+<p class="muted">These jobs used up their retries or hit a permanent error. A person must decide what to do.</p>
+<label>Admin token <input id="token" type="password" autocomplete="off"></label>
+<button id="load" type="button">Load</button>
+<span id="status" role="status"></span>
+<div id="out"></div>
+<script src="/admin/dead.js"></script>
+</body>
+</html>

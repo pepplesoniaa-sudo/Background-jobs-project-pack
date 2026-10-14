@@ -1,0 +1,9 @@
+
+ RUN  v5.0.3 C:/Users/HP/Desktop/Background jobs project pack
+
+
+ Test Files  1 passed (1)
+      Tests  13 passed (13)
+   Start at  21:58:58
+   Duration  1.93s (tests 74%, transform 15%, setup 7%, import 4%, worker 1%)
+
