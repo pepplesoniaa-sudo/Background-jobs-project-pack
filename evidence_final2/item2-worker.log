@@ -1,0 +1,21 @@
+worker=DESKTOP-UTKAUV9-22412 started concurrency=5 transport=fake
+worker=DESKTOP-UTKAUV9-22412 concurrent=1 max_seen=1
+worker=DESKTOP-UTKAUV9-22412 job=03b46655-0de4-4a83-aa9d-39026b66ebb4 type=send_email attempt=1 status=processing
+worker=DESKTOP-UTKAUV9-22412 job=03b46655-0de4-4a83-aa9d-39026b66ebb4 attempt=1 status=failed bound_ms=2000 delay_ms=1928
+worker=DESKTOP-UTKAUV9-22412 concurrent=0 max_seen=1
+worker=DESKTOP-UTKAUV9-22412 concurrent=1 max_seen=1
+worker=DESKTOP-UTKAUV9-22412 job=03b46655-0de4-4a83-aa9d-39026b66ebb4 type=send_email attempt=2 status=processing
+worker=DESKTOP-UTKAUV9-22412 job=03b46655-0de4-4a83-aa9d-39026b66ebb4 attempt=2 status=failed bound_ms=4000 delay_ms=3717
+worker=DESKTOP-UTKAUV9-22412 concurrent=0 max_seen=1
+worker=DESKTOP-UTKAUV9-22412 concurrent=1 max_seen=1
+worker=DESKTOP-UTKAUV9-22412 job=03b46655-0de4-4a83-aa9d-39026b66ebb4 type=send_email attempt=3 status=processing
+worker=DESKTOP-UTKAUV9-22412 job=03b46655-0de4-4a83-aa9d-39026b66ebb4 attempt=3 status=failed bound_ms=8000 delay_ms=4293
+worker=DESKTOP-UTKAUV9-22412 concurrent=0 max_seen=1
+worker=DESKTOP-UTKAUV9-22412 concurrent=1 max_seen=1
+worker=DESKTOP-UTKAUV9-22412 job=03b46655-0de4-4a83-aa9d-39026b66ebb4 type=send_email attempt=4 status=processing
+worker=DESKTOP-UTKAUV9-22412 job=03b46655-0de4-4a83-aa9d-39026b66ebb4 attempt=4 status=failed bound_ms=16000 delay_ms=11632
+worker=DESKTOP-UTKAUV9-22412 concurrent=0 max_seen=1
+worker=DESKTOP-UTKAUV9-22412 concurrent=1 max_seen=1
+worker=DESKTOP-UTKAUV9-22412 job=03b46655-0de4-4a83-aa9d-39026b66ebb4 type=send_email attempt=5 status=processing
+worker=DESKTOP-UTKAUV9-22412 job=03b46655-0de4-4a83-aa9d-39026b66ebb4 attempt=5 status=dead
+worker=DESKTOP-UTKAUV9-22412 concurrent=0 max_seen=1

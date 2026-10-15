@@ -1,0 +1,32 @@
+DB: jobs_evidence
+BEFORE counts: {"dead":8,"succeeded":163}
+config: FAKE_SEND_DELAY_MS=1500  SEND_TIMEOUT_MS=2000  STUCK_TIMEOUT_MS=6000  HEARTBEAT_INTERVAL_MS=2000  WORKER_CONCURRENCY=1  UNCERTAIN_SEND_POLICY=resend
+enqueue status=202 id=662b550f-ca88-41d8-8aa2-a03f2739880e
+
+(A) worker A is mid-send. Hard-killing it now (SIGKILL).
+    status=processing attempts=1 locked_by=DESKTOP-UTKAUV9-43320 locked_at=2026-10-14 21:03:31 started_at=2026-10-14 21:03:31
+    sent_emails.state=sending
+
+STATE 1 - the stuck job (worker A is dead, nothing refreshed the lock):
+    status=processing attempts=1 locked_by=DESKTOP-UTKAUV9-43320 locked_at=2026-10-14 21:03:31
+    sent_emails.state=sending  (unknown outcome: the send was interrupted)
+    worker A id was DESKTOP-UTKAUV9-43320; it is gone (hard kill).
+    lock age is now 6.8s (>= STUCK_TIMEOUT_MS=6000) => the sweep may reclaim it.
+
+Starting worker B (same config). Its periodic sweep should recover the stuck job.
+
+STATE 2 - recovered by the sweep to 'failed':
+    status=failed attempts=1 run_at=2026-10-14 21:03:41 locked_by=(null) last_error="stuck: worker lost or slow"
+
+STATE 3 - retried and finished:
+    status=succeeded attempts=2 finished_at=2026-10-14 21:03:43 locked_by=(null)
+    sent_emails.state=sent provider_message_id=(set)
+
+job_attempts history for this job:
+#  worker_id                  started(UTC)          finished(UTC)         bound_ms  delay_ms  error
+1  DESKTOP-UTKAUV9-43320      2026-10-14 21:03:31  2026-10-14 21:03:40  2000      1456      stuck: worker lost or slow
+2  DESKTOP-UTKAUV9-44408      2026-10-14 21:03:41  2026-10-14 21:03:43  -         -         ok
+
+saw the intermediate 'failed' state: true
+AFTER counts: {"dead":8,"succeeded":164}
+written item4_stuck_recovery.txt

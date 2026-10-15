@@ -1,0 +1,75 @@
+                                  Table "public.jobs"
+     Column      |           Type           | Collation | Nullable |      Default      
+-----------------+--------------------------+-----------+----------+-------------------
+ id              | uuid                     |           | not null | gen_random_uuid()
+ type            | text                     |           | not null | 
+ owner_id        | text                     |           | not null | 
+ payload         | jsonb                    |           | not null | 
+ payload_hash    | text                     |           | not null | 
+ status          | text                     |           | not null | 'pending'::text
+ attempts        | integer                  |           | not null | 0
+ max_attempts    | integer                  |           | not null | 
+ last_error      | text                     |           |          | 
+ run_at          | timestamp with time zone |           | not null | now()
+ locked_by       | text                     |           |          | 
+ locked_at       | timestamp with time zone |           |          | 
+ started_at      | timestamp with time zone |           |          | 
+ finished_at     | timestamp with time zone |           |          | 
+ idempotency_key | text                     |           | not null | 
+ created_at      | timestamp with time zone |           | not null | now()
+Indexes:
+    "jobs_pkey" PRIMARY KEY, btree (id)
+    "jobs_idempotency_key_key" UNIQUE CONSTRAINT, btree (idempotency_key)
+    "jobs_status_run_at_idx" btree (status, run_at)
+Check constraints:
+    "jobs_status_check" CHECK (status = ANY (ARRAY['pending'::text, 'processing'::text, 'succeeded'::text, 'failed'::text, 'dead'::text]))
+Referenced by:
+    TABLE "job_attempts" CONSTRAINT "job_attempts_job_id_fkey" FOREIGN KEY (job_id) REFERENCES jobs(id)
+    TABLE "sent_emails" CONSTRAINT "sent_emails_job_id_fkey" FOREIGN KEY (job_id) REFERENCES jobs(id)
+
+                              Table "public.job_attempts"
+      Column      |           Type           | Collation | Nullable |      Default      
+------------------+--------------------------+-----------+----------+-------------------
+ id               | uuid                     |           | not null | gen_random_uuid()
+ job_id           | uuid                     |           | not null | 
+ attempt_no       | integer                  |           | not null | 
+ worker_id        | text                     |           | not null | 
+ started_at       | timestamp with time zone |           | not null | now()
+ finished_at      | timestamp with time zone |           |          | 
+ error            | text                     |           |          | 
+ backoff_bound_ms | integer                  |           |          | 
+ delay_ms         | integer                  |           |          | 
+Indexes:
+    "job_attempts_pkey" PRIMARY KEY, btree (id)
+    "job_attempts_job_id_attempt_no_key" UNIQUE CONSTRAINT, btree (job_id, attempt_no)
+Foreign-key constraints:
+    "job_attempts_job_id_fkey" FOREIGN KEY (job_id) REFERENCES jobs(id)
+
+                           Table "public.sent_emails"
+       Column        |           Type           | Collation | Nullable | Default 
+---------------------+--------------------------+-----------+----------+---------
+ job_id              | uuid                     |           | not null | 
+ state               | text                     |           | not null | 
+ provider_message_id | text                     |           |          | 
+ created_at          | timestamp with time zone |           | not null | now()
+ updated_at          | timestamp with time zone |           | not null | now()
+Indexes:
+    "sent_emails_pkey" PRIMARY KEY, btree (job_id)
+Check constraints:
+    "sent_emails_state_check" CHECK (state = ANY (ARRAY['sending'::text, 'sent'::text]))
+Foreign-key constraints:
+    "sent_emails_job_id_fkey" FOREIGN KEY (job_id) REFERENCES jobs(id)
+
+              conname               |                                                         def                                                          
+------------------------------------+----------------------------------------------------------------------------------------------------------------------
+ job_attempts_job_id_attempt_no_key | UNIQUE (job_id, attempt_no)
+ job_attempts_job_id_fkey           | FOREIGN KEY (job_id) REFERENCES jobs(id)
+ job_attempts_pkey                  | PRIMARY KEY (id)
+ jobs_idempotency_key_key           | UNIQUE (idempotency_key)
+ jobs_pkey                          | PRIMARY KEY (id)
+ jobs_status_check                  | CHECK ((status = ANY (ARRAY['pending'::text, 'processing'::text, 'succeeded'::text, 'failed'::text, 'dead'::text])))
+ sent_emails_job_id_fkey            | FOREIGN KEY (job_id) REFERENCES jobs(id)
+ sent_emails_pkey                   | PRIMARY KEY (job_id)
+ sent_emails_state_check            | CHECK ((state = ANY (ARRAY['sending'::text, 'sent'::text])))
+(9 rows)
+

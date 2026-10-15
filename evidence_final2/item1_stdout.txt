@@ -1,0 +1,23 @@
+DB: jobs_evidence
+BEFORE counts: {"dead":6,"succeeded":109}
+phase1 (succeeded) enqueue status=202 id=2953cd55-d96d-4d1a-94c3-6d289ccb6398
+phase2 (dead) enqueue status=202 id=178e0dfb-58b2-4ed1-a432-36607f37c286
+phase3 (failed) enqueue status=202 id=5d024076-a680-4c59-bdfa-22c486d7033c
+phase3 result: status=failed attempts=1 run_at=2026-10-14T21:02:13.635Z last_error="provider outcome unknown: provider 503"
+phase4 enqueue processing status=202 id=de8741a9-8a81-4a0b-8833-fb5fbedd5e6e
+phase4 enqueue pending status=202 id=52c1a21c-92e5-4263-934f-74f80660c184
+
+SNAPSHOT - the 5 fresh jobs (one per status), captured while the single worker is mid-send on 'proc':
+id(8)     key       status       att/max  run_at                        locked_by                                locked_at                     last_error
+2953cd55   succ     succeeded    1/5      2026-10-14 21:01:58           (null)                                   (null)                        
+178e0dfb   dead     dead         2/5      2026-10-14 21:02:00           (null)                                   (null)                        uncertain send
+5d024076   failed   failed       1/5      2026-10-14 21:02:13           (null)                                   (null)                        provider outcome unknown: provider 503
+de8741a9   proc     processing   1/5      2026-10-14 21:02:04           DESKTOP-UTKAUV9-39568                    2026-10-14 21:02:04           
+52c1a21c   pend     pending      0/5      2026-10-14 21:02:04           (null)                                   (null)                        
+
+STATUS COUNTS among the 5 fresh jobs: {"succeeded":1,"dead":1,"failed":1,"processing":1,"pending":1}
+HAS ALL FIVE STATUSES: true
+phase4 worker killed mid-send (the 'proc' job now stays 'processing' until a sweep recovers it).
+
+AFTER counts (all jobs, incl. history): {"dead":7,"failed":1,"pending":1,"processing":1,"succeeded":110}
+written item1_all_statuses.txt

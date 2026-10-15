@@ -1,0 +1,9 @@
+worker=DESKTOP-UTKAUV9-33664 started concurrency=5 transport=fake
+worker=DESKTOP-UTKAUV9-33664 concurrent=1 max_seen=1
+worker=DESKTOP-UTKAUV9-33664 job=0eb7678a-827c-4950-b5e5-cbe95a85a7d4 type=send_email attempt=1 status=processing
+worker=DESKTOP-UTKAUV9-33664 job=0eb7678a-827c-4950-b5e5-cbe95a85a7d4 attempt=1 status=failed bound_ms=500 delay_ms=312
+worker=DESKTOP-UTKAUV9-33664 concurrent=0 max_seen=1
+worker=DESKTOP-UTKAUV9-33664 concurrent=1 max_seen=1
+worker=DESKTOP-UTKAUV9-33664 job=0eb7678a-827c-4950-b5e5-cbe95a85a7d4 type=send_email attempt=2 status=processing
+worker=DESKTOP-UTKAUV9-33664 job=0eb7678a-827c-4950-b5e5-cbe95a85a7d4 attempt=2 status=dead
+worker=DESKTOP-UTKAUV9-33664 concurrent=0 max_seen=1

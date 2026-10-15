@@ -1,0 +1,14 @@
+DB: jobs_evidence
+BEFORE counts: {"dead":7,"succeeded":113}
+config: BACKOFF_BASE_MS=2000  BACKOFF_CAP_MS=300000  UNCERTAIN_SEND_POLICY=resend  FORCE_FAIL=true  MAX_ATTEMPTS=5
+enqueue status=202 id=03b46655-0de4-4a83-aa9d-39026b66ebb4
+FINAL: status=dead attempts=5 max_attempts=5 last_error="provider outcome unknown: provider 503"
+
+job_attempts rows for this job (bound = min(cap, base*2^(attempt-1)); delay = bound/2 + random*bound/2):
+#  started(UTC)          finished(UTC)         bound_ms   delay_ms   gap_prev_finish_to_this_start_ms   error
+1  2026-10-14 21:02:33  2026-10-14 21:02:33  2000       1928                                          provider outcome unknown: provider 503
+2  2026-10-14 21:02:35  2026-10-14 21:02:35  4000       3717      1995                                provider outcome unknown: provider 503
+3  2026-10-14 21:02:39  2026-10-14 21:02:39  8000       4293      3717                                provider outcome unknown: provider 503
+4  2026-10-14 21:02:43  2026-10-14 21:02:43  16000      11632     4297                                provider outcome unknown: provider 503
+5  2026-10-14 21:02:55  2026-10-14 21:02:55  -          -         11657                               provider outcome unknown: provider 503
+written item2_backoff.txt
